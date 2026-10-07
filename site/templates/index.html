@@ -34,9 +34,7 @@
     <main>
       <section class="hero" aria-labelledby="page-title">
         <div>
-          <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span><span data-i18n="eyebrow">БЫСТРЫЙ ГЕНЕРАТОР КОДОВ КОМАНДЫ</span></p>
           <h1 id="page-title"><span data-i18n="titleA">СТАНЬ</span><br><span class="accent" data-i18n="titleB">НЕЗВАНЫМ ГОСТЕМ</span></h1>
-          <p class="hero-copy" data-i18n="heroCopy">Получи 10 ссылок со смещением — и удиви рандомов.</p>
         </div>
         <div class="orbit-stamp" aria-hidden="true">
           <svg class="stamp-star" viewBox="0 0 24 24" fill="currentColor"><path d="m12 1.5 2.6 7.9 7.9 2.6-7.9 2.6-2.6 7.9-2.6-7.9-7.9-2.6 7.9-2.6L12 1.5Z"/></svg>
@@ -46,14 +44,13 @@
 
       <section class="generator" aria-labelledby="generator-title">
         <div class="generator-bar">
-          <div class="generator-bar-title"><span class="bar-index">01</span><span id="generator-title" data-i18n="generatorTitle">СОБЕРИ СВОИ ССЫЛКИ</span></div>
-          <span class="bar-note" data-i18n="barNote">БЫСТРО · БЕЗ ЛИШНЕГО</span>
+          <div class="generator-bar-title"><span class="bar-index">01</span><span id="generator-title" data-i18n="generatorTitle">Вставь свою ссылку/код</span></div>
         </div>
         <form id="generator-form" novalidate>
           <div class="form-content">
-            <label class="input-label" for="team-input" data-i18n="inputLabel">Код команды или ссылка-приглашение</label>
+            <label class="input-label sr-only" for="team-input" data-i18n="inputLabel">Вставь свою ссылку или код</label>
             <div class="input-wrap">
-              <input class="code-input" id="team-input" name="teamCodeOrLink" type="text" maxlength="512" autocomplete="off" spellcheck="false" placeholder="Вставь код команды или ссылку">
+              <input class="code-input" id="team-input" name="teamCodeOrLink" type="text" maxlength="512" autocomplete="off" spellcheck="false" placeholder="XXXXXXXX">
               <button class="paste-button" id="paste-button" type="button">
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="7" y="5" width="13" height="16" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M9 5V4a2 2 0 0 1 2-2h5a2 2 0 0 1 2 2v1M4 8v11a2 2 0 0 0 2 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
                 <span data-i18n="paste">Вставить</span>
@@ -96,9 +93,8 @@
       <section class="results-section" aria-labelledby="results-title">
         <div class="results-head">
           <div>
-            <p class="results-kicker" data-i18n="resultsKicker">ТВОЙ НАБОР</p>
             <h2 class="results-title" id="results-title" data-i18n="resultsTitle">ГОТОВЫЕ ССЫЛКИ</h2>
-            <div class="results-meta" id="results-meta" data-i18n="resultsMeta">10 ссылок появятся здесь</div>
+            <div class="results-meta" id="results-meta" aria-live="polite"></div>
           </div>
         </div>
         <div class="results-area" id="results-area">

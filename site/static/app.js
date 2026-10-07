@@ -1,15 +1,12 @@
 (() => {
   const copy = {
     ru: {
-      eyebrow: "БЫСТРЫЙ ГЕНЕРАТОР КОДОВ КОМАНДЫ",
       titleA: "СТАНЬ",
       titleB: "НЕЗВАНЫМ ГОСТЕМ",
-      heroCopy: "Получи 10 ссылок со смещением — и удиви рандомов.",
       stamp: "КОМАНДА<br>ГОТОВА",
-      generatorTitle: "СОБЕРИ СВОИ ССЫЛКИ",
-      barNote: "БЫСТРО · БЕЗ ЛИШНЕГО",
-      inputLabel: "Код команды или ссылка-приглашение",
-      inputPlaceholder: "Вставь код команды или ссылку",
+      generatorTitle: "Вставь свою ссылку/код",
+      inputLabel: "Вставь свою ссылку или код",
+      inputPlaceholder: "XXXXXXXX",
       paste: "Вставить",
       pasteError: "Не удалось прочитать буфер обмена. Вставь код вручную.",
       offsetLabel: "Смещение",
@@ -20,9 +17,7 @@
       customOffset: "Другое",
       generate: "Сгенерировать 10 ссылок",
       generating: "Считаем коды",
-      resultsKicker: "ТВОЙ НАБОР",
       resultsTitle: "ГОТОВЫЕ ССЫЛКИ",
-      resultsMeta: "10 ссылок появятся здесь",
       loadingMeta: "Готовим 10 ссылок…",
       emptyTitle: "Тут будет твой набор",
       emptyCopy: "Введи код выше — и ссылки появятся сразу после генерации.",
@@ -51,15 +46,12 @@
       copyFailure: "Не удалось скопировать ссылку."
     },
     en: {
-      eyebrow: "QUICK TEAM CODE GENERATOR",
       titleA: "BE",
       titleB: "THE UNINVITED GUEST",
-      heroCopy: "Get 10 invite links with an offset — and surprise some randoms.",
       stamp: "SQUAD<br>READY",
-      generatorTitle: "BUILD YOUR INVITE SET",
-      barNote: "FAST · NO FUSS",
-      inputLabel: "Team code or invite link",
-      inputPlaceholder: "Paste a team code or invite link",
+      generatorTitle: "Paste your link/code",
+      inputLabel: "Paste your link or code",
+      inputPlaceholder: "XXXXXXXX",
       paste: "Paste",
       pasteError: "Clipboard access failed. Paste your code into the field.",
       offsetLabel: "Offset",
@@ -70,9 +62,7 @@
       customOffset: "Custom",
       generate: "Generate 10 invite links",
       generating: "Calculating codes",
-      resultsKicker: "YOUR SET",
       resultsTitle: "INVITE LINKS",
-      resultsMeta: "Your 10 links will show up here",
       loadingMeta: "Preparing 10 invite links…",
       emptyTitle: "Your set will land here",
       emptyCopy: "Enter a code above and your invite links will appear as soon as they are ready.",
@@ -237,7 +227,7 @@
     generatedResults = [];
     resultList.replaceChildren();
     resultPlaceholder.hidden = false;
-    resultsMeta.textContent = tr("resultsMeta");
+    resultsMeta.textContent = "";
   }
 
   function showLoadingResults() {
