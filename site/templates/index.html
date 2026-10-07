@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f8f5e7">
-  <meta name="description" content="Generate a quick set of Brawl Stars team invite links from a team code.">
-  <title>Team Code Lab — Brawl Stars</title>
+  <meta name="description" content="Введи код команды Brawl Stars и получи 10 приглашений. Смещение по умолчанию — 50.">
+  <title>Стань незваным гостем — Team Code Lab</title>
   <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <script src="{{ url_for('static', filename='app.js') }}" defer></script>
@@ -35,8 +35,8 @@
       <section class="hero" aria-labelledby="page-title">
         <div>
           <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span><span data-i18n="eyebrow">БЫСТРЫЙ ГЕНЕРАТОР КОДОВ КОМАНДЫ</span></p>
-          <h1 id="page-title"><span data-i18n="titleA">БОЛЬШЕ</span><br><span class="accent" data-i18n="titleB">ВАРИАНТОВ.</span></h1>
-          <p class="hero-copy" data-i18n="heroCopy">Вставь код команды или ссылку-приглашение. Получи 10 ссылок со смещением — и сразу зови друзей.</p>
+          <h1 id="page-title"><span data-i18n="titleA">СТАНЬ</span><br><span class="accent" data-i18n="titleB">НЕЗВАНЫМ ГОСТЕМ</span></h1>
+          <p class="hero-copy" data-i18n="heroCopy">Получи 10 ссылок со смещением — и удиви рандомов.</p>
         </div>
         <div class="orbit-stamp" aria-hidden="true">
           <svg class="stamp-star" viewBox="0 0 24 24" fill="currentColor"><path d="m12 1.5 2.6 7.9 7.9 2.6-7.9 2.6-2.6 7.9-2.6-7.9-7.9-2.6 7.9-2.6L12 1.5Z"/></svg>
@@ -60,19 +60,26 @@
               </button>
             </div>
             <div class="form-lower">
-              <div class="offset-field">
-                <div class="offset-label-row">
-                  <span class="field-label" data-i18n="offsetLabel">Смещение</span>
-                  <span class="offset-hint" data-i18n="offsetHint">между исходным и первым кодом</span>
-                </div>
-                <div class="offset-options" role="group" aria-label="Offset">
-                  <button class="offset-chip" type="button" data-offset="0" aria-pressed="false">0</button>
-                  <button class="offset-chip" type="button" data-offset="5" aria-pressed="false">5</button>
-                  <button class="offset-chip" type="button" data-offset="10" aria-pressed="false">10</button>
-                  <button class="offset-chip" type="button" data-offset="20" aria-pressed="false">20</button>
-                  <button class="offset-chip" type="button" data-offset="50" aria-pressed="true">50</button>
-                  <button class="offset-chip" type="button" data-offset="100" aria-pressed="false">100</button>
-                  <input class="custom-offset" id="custom-offset" type="number" min="0" max="10000" step="1" inputmode="numeric" aria-label="Custom offset" placeholder="Custom">
+              <div class="offset-controls">
+                <button class="offset-toggle" id="offset-toggle" type="button" aria-controls="offset-editor" aria-expanded="false" aria-pressed="false">
+                  <span class="offset-toggle-dot" aria-hidden="true"></span>
+                  <span id="offset-toggle-label">Смещение: выкл. · 50</span>
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 10 5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <div class="offset-field" id="offset-editor" hidden>
+                  <div class="offset-label-row">
+                    <span class="field-label" data-i18n="offsetLabel">Смещение</span>
+                    <span class="offset-hint" data-i18n="offsetHint">между исходным и первым кодом</span>
+                  </div>
+                  <div class="offset-options" role="group" aria-label="Offset">
+                    <button class="offset-chip" type="button" data-offset="0" aria-pressed="false">0</button>
+                    <button class="offset-chip" type="button" data-offset="5" aria-pressed="false">5</button>
+                    <button class="offset-chip" type="button" data-offset="10" aria-pressed="false">10</button>
+                    <button class="offset-chip" type="button" data-offset="20" aria-pressed="false">20</button>
+                    <button class="offset-chip" type="button" data-offset="50" aria-pressed="true">50</button>
+                    <button class="offset-chip" type="button" data-offset="100" aria-pressed="false">100</button>
+                    <input class="custom-offset" id="custom-offset" type="number" min="0" max="10000" step="1" inputmode="numeric" aria-label="Custom offset" placeholder="Custom">
+                  </div>
                 </div>
               </div>
               <button class="generate-button" id="generate-button" type="submit">
@@ -93,10 +100,6 @@
             <h2 class="results-title" id="results-title" data-i18n="resultsTitle">ГОТОВЫЕ ССЫЛКИ</h2>
             <div class="results-meta" id="results-meta" data-i18n="resultsMeta">10 ссылок появятся здесь</div>
           </div>
-          <button class="copy-all" id="copy-all" type="button" disabled>
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="8" y="8" width="13" height="13" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3" stroke="currentColor" stroke-width="1.7"/></svg>
-            <span data-i18n="copyAll">Скопировать все</span>
-          </button>
         </div>
         <div class="results-area" id="results-area">
           <div class="result-placeholder" id="result-placeholder">
@@ -117,6 +120,12 @@
     <footer class="footer">
       <span class="footer-mark">TEAM CODE LAB</span>
       <span data-i18n="footerNote">Неофициальный инструмент для игроков Brawl Stars</span>
+      <span class="footer-credit"><span data-i18n="creditsLead">Разработано</span>
+        <a href="https://www.tiktok.com/@neighty" target="_blank" rel="noopener noreferrer">@neighty</a>
+        <span data-i18n="creditsAnd">и</span>
+        <a href="https://www.tiktok.com/@witherings" target="_blank" rel="noopener noreferrer">@witherings</a>
+        <span data-i18n="creditsOn">в TikTok</span>
+      </span>
     </footer>
   </div>
 </body>

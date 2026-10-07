@@ -2,9 +2,9 @@
   const copy = {
     ru: {
       eyebrow: "БЫСТРЫЙ ГЕНЕРАТОР КОДОВ КОМАНДЫ",
-      titleA: "БОЛЬШЕ",
-      titleB: "ВАРИАНТОВ.",
-      heroCopy: "Вставь код команды или ссылку-приглашение. Получи 10 ссылок со смещением — и сразу зови друзей.",
+      titleA: "СТАНЬ",
+      titleB: "НЕЗВАНЫМ ГОСТЕМ",
+      heroCopy: "Получи 10 ссылок со смещением — и удиви рандомов.",
       stamp: "КОМАНДА<br>ГОТОВА",
       generatorTitle: "СОБЕРИ СВОИ ССЫЛКИ",
       barNote: "БЫСТРО · БЕЗ ЛИШНЕГО",
@@ -15,6 +15,8 @@
       offsetLabel: "Смещение",
       offsetHint: "между исходным и первым кодом",
       offsetAria: "Смещение",
+      offsetOff: "Смещение: выкл. · 50",
+      offsetOn: "Смещение: вкл.",
       customOffset: "Другое",
       generate: "Сгенерировать 10 ссылок",
       generating: "Считаем коды",
@@ -22,12 +24,14 @@
       resultsTitle: "ГОТОВЫЕ ССЫЛКИ",
       resultsMeta: "10 ссылок появятся здесь",
       loadingMeta: "Готовим 10 ссылок…",
-      copyAll: "Скопировать все",
       emptyTitle: "Тут будет твой набор",
       emptyCopy: "Введи код выше — и ссылки появятся сразу после генерации.",
       noteLead: "Важно:",
       noteText: "коды и ссылки рассчитываются автоматически. Активность игровых комнат не проверяется.",
       footerNote: "Неофициальный инструмент для игроков Brawl Stars",
+      creditsLead: "Разработано",
+      creditsAnd: "и",
+      creditsOn: "в TikTok",
       soundOn: "Звук вкл.",
       soundOff: "Звук выкл.",
       soundEnable: "Включить звук",
@@ -41,8 +45,6 @@
       generated: "Готово: создано 10 ссылок.",
       copiedCode: "Код команды {code} скопирован.",
       copiedInvite: "Ссылка приглашения {code} скопирована.",
-      copiedAll: "Все 10 ссылок скопированы.",
-      clipboardError: "Не удалось скопировать. Проверь разрешения браузера.",
       invalidOffset: "Смещение должно быть целым числом от 0 до 10000.",
       retry: "Повторить",
       networkError: "Не удалось связаться с генератором. Попробуй ещё раз.",
@@ -50,9 +52,9 @@
     },
     en: {
       eyebrow: "QUICK TEAM CODE GENERATOR",
-      titleA: "MORE",
-      titleB: "WAYS IN.",
-      heroCopy: "Paste a team code or invite link. Get 10 offset invite links, then bring your crew straight in.",
+      titleA: "BE",
+      titleB: "THE UNINVITED GUEST",
+      heroCopy: "Get 10 invite links with an offset — and surprise some randoms.",
       stamp: "SQUAD<br>READY",
       generatorTitle: "BUILD YOUR INVITE SET",
       barNote: "FAST · NO FUSS",
@@ -63,6 +65,8 @@
       offsetLabel: "Offset",
       offsetHint: "between the original and first code",
       offsetAria: "Offset",
+      offsetOff: "Offset: off · 50",
+      offsetOn: "Offset: on",
       customOffset: "Custom",
       generate: "Generate 10 invite links",
       generating: "Calculating codes",
@@ -70,12 +74,14 @@
       resultsTitle: "INVITE LINKS",
       resultsMeta: "Your 10 links will show up here",
       loadingMeta: "Preparing 10 invite links…",
-      copyAll: "Copy all",
       emptyTitle: "Your set will land here",
       emptyCopy: "Enter a code above and your invite links will appear as soon as they are ready.",
       noteLead: "Heads up:",
       noteText: "codes and links are calculated automatically. Active game rooms are not checked.",
       footerNote: "An unofficial tool for Brawl Stars players",
+      creditsLead: "Built by",
+      creditsAnd: "and",
+      creditsOn: "on TikTok",
       soundOn: "Sound on",
       soundOff: "Sound off",
       soundEnable: "Enable sound",
@@ -89,8 +95,6 @@
       generated: "Done: 10 invite links are ready.",
       copiedCode: "Team code {code} copied.",
       copiedInvite: "Invite link for {code} copied.",
-      copiedAll: "All 10 invite links copied.",
-      clipboardError: "Could not copy. Check your browser permissions.",
       invalidOffset: "Offset must be a whole number from 0 to 10000.",
       retry: "Try again",
       networkError: "Could not reach the generator. Please try again.",
@@ -101,19 +105,22 @@
   const form = document.getElementById("generator-form");
   const input = document.getElementById("team-input");
   const customOffset = document.getElementById("custom-offset");
+  const offsetToggle = document.getElementById("offset-toggle");
+  const offsetToggleLabel = document.getElementById("offset-toggle-label");
+  const offsetEditor = document.getElementById("offset-editor");
   const generateButton = document.getElementById("generate-button");
   const generateLabel = document.getElementById("generate-label");
   const feedback = document.getElementById("feedback");
   const resultList = document.getElementById("result-list");
   const resultPlaceholder = document.getElementById("result-placeholder");
   const resultsMeta = document.getElementById("results-meta");
-  const copyAllButton = document.getElementById("copy-all");
   const pasteButton = document.getElementById("paste-button");
   const soundToggle = document.getElementById("sound-toggle");
   const soundLabel = document.getElementById("sound-label");
   const languageButtons = [...document.querySelectorAll("[data-language]")];
   const offsetButtons = [...document.querySelectorAll("[data-offset]")];
   let language = "ru";
+  let offsetEnabled = false;
   let generatedResults = [];
   let soundsEnabled = false;
   let audioContext = null;
@@ -130,7 +137,7 @@
   function setLanguage(nextLanguage) {
     language = nextLanguage === "en" ? "en" : "ru";
     document.documentElement.lang = language;
-    document.title = language === "ru" ? "Team Code Lab — Brawl Stars" : "Team Code Lab — Brawl Stars";
+    document.title = language === "ru" ? "Стань незваным гостем — Team Code Lab" : "Be the uninvited guest — Team Code Lab";
     document.querySelectorAll("[data-i18n]").forEach((element) => {
       const key = element.dataset.i18n;
       if (copy[language][key]) element.innerHTML = copy[language][key];
@@ -140,6 +147,7 @@
     customOffset.setAttribute("aria-label", tr("customOffset"));
     document.querySelector(".language-switch").setAttribute("aria-label", tr("soundGroup"));
     document.querySelector(".offset-options").setAttribute("aria-label", tr("offsetAria"));
+    updateOffsetControl();
     generateLabel.textContent = isGenerating ? tr("generating") : tr("generate");
     if (isGenerating) resultsMeta.textContent = tr("loadingMeta");
     languageButtons.forEach((button) => {
@@ -159,6 +167,13 @@
     icon.innerHTML = soundsEnabled
       ? '<path d="M11 5 6 9H3v6h3l5 4V5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M16 9a5 5 0 0 1 0 6M19 6a9 9 0 0 1 0 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>'
       : '<path d="M11 5 6 9H3v6h3l5 4V5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M16 9a5 5 0 0 1 0 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="m17 4 4 4m0-4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>';
+  }
+
+  function updateOffsetControl() {
+    offsetToggleLabel.textContent = tr(offsetEnabled ? "offsetOn" : "offsetOff");
+    offsetToggle.setAttribute("aria-expanded", String(offsetEnabled));
+    offsetToggle.setAttribute("aria-pressed", String(offsetEnabled));
+    offsetEditor.hidden = !offsetEnabled;
   }
 
   function playTone(kind = "success") {
@@ -208,6 +223,7 @@
   }
 
   function currentOffset() {
+    if (!offsetEnabled) return 50;
     if (!customOffset.value.trim()) {
       return Number(offsetButtons.find((button) => button.getAttribute("aria-pressed") === "true")?.dataset.offset ?? 50);
     }
@@ -221,7 +237,6 @@
     generatedResults = [];
     resultList.replaceChildren();
     resultPlaceholder.hidden = false;
-    copyAllButton.disabled = true;
     resultsMeta.textContent = tr("resultsMeta");
   }
 
@@ -245,7 +260,6 @@
     resultList.replaceChildren();
     resultPlaceholder.hidden = true;
     resultsMeta.textContent = tr("offsetMeta", { base: baseCode, offset });
-    copyAllButton.disabled = results.length === 0;
     results.forEach((result, position) => {
       const row = document.createElement("article");
       row.className = "result-row";
@@ -366,11 +380,16 @@
     if (soundsEnabled) playTone();
   });
 
-  copyAllButton.addEventListener("click", async () => {
-    if (!generatedResults.length) return;
-    const ok = await writeClipboard(generatedResults.map((result) => result.inviteUrl).join("\n"));
-    showFeedback(ok ? tr("copiedAll") : tr("clipboardError"), ok ? "success" : "error");
-    if (ok) playTone();
+  offsetToggle.addEventListener("click", () => {
+    offsetEnabled = !offsetEnabled;
+    if (!offsetEnabled) {
+      offsetButtons.forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.offset === "50"));
+      });
+      customOffset.value = "";
+    }
+    updateOffsetControl();
+    clearFeedback();
   });
 
   form.addEventListener("submit", async (event) => {
